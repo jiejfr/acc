@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+*{
+	margin: 0;
+	padding: 0;
+}	
+li{
+	list-style: none;
+}
+div,ul,ul>li{
+	width: 810px;
+	height: 320px;
+}	
+div{
+	position: relative;
+}
+ul,ul>li{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+ul{
+	z-index: 0;
+}
+ol{
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	z-index: 1;
+}
+ol>li{
+	float: left;
+	padding: 2px 5px;
+}
+ol span{
+	width: 30px;
+	height: 30px;
+	display: block;
+	border-radius: 50%;
+	background: rgba(255,255,255,.9);
+	cursor: pointer;	
+}
+</style>
+</head>
+<body>
+	
+<div id="div1">
+	<ul>
+		<li><a href="http://www.baidu.com" target="_blank"><img src="images/001.jpg"/></a></li>
+		<li><a href="http://www.163.com" target="_blank"><img src="images/002.jpg"/></a></li>
+		<li><a href="http://www.sina.com.cn" target="_blank"><img src="images/003.jpg"/></a></li>
+		<li><a href="http://www.1000phone.com" target="_blank"><img src="images/004.jpg"/></a></li>
+	</ul>
+	<ol>
+		<li><span></span></li>
+		<li><span></span></li>
+		<li><span></span></li>
+		<li><span></span></li>
+	</ol>	
+</div>	
+<script src="../startMove.js"></script>
+<script>
+var spans = Array.from(document.querySelectorAll("span"));	
+var lis = Array.from(document.querySelectorAll("ul>li"));
+var zindex = 0;
+var now = 0;
+tab();
+
+spans.forEach(function(span, index){
+	span.onclick = function(){
+		now = index;
+		tab();
+	}
+});
+
+function tab(){
+	lis.forEach(function(li){
+		startMove(li, {"opacity":0});
+	});
+	zindex++;
+	lis[now].style.zIndex = zindex;
+	startMove(lis[now], {"opacity":100});
+	
+	spans.forEach(function(span){
+		span.style.background = "";
+	});
+	spans[now].style.background = "rgba(0,255,255,.9)";
+}
+
+function next(){
+	now++;
+	if( now==4 ){
+		now=0;
+	}
+	tab();
+}
+
+var timer = setInterval(next, 3000);
+
+div1.onmouseover = function(){
+	clearInterval(timer);
+}
+div1.onmouseout = function(){
+	timer = setInterval(next, 3000);
+}
+
+
+
+</script>
+	
+</body>
+</html>
+
